@@ -2114,7 +2114,7 @@ bool identify_fully_aux(object_type *i_ptr)
     }
     if (f1 & TR1_SLAY_DEMON)
     {
-        info[i++] = "It strikes at demons with holy wrath.";
+        info[i++] = "It strikes at fiends with holy wrath.";
     }
     if (f1 & TR1_SLAY_UNDEAD)
     {

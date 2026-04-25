@@ -2388,7 +2388,7 @@ static void build_type6(int yval, int xval)
     else
     {
         /* Message */
-        if (cheat_room) msg_print("Demon Pit");
+        if (cheat_room) msg_print("Fiend Pit");
 
 #if 0
         what[0] = vault_aux("Vrock");
@@ -3923,6 +3923,5 @@ void generate_cave()
     /* Remember when this level was "created" */
     old_turn = turn;
 }
-
 
 

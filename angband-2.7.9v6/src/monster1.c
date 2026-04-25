@@ -659,7 +659,7 @@ static void roff_aux(int r_idx)
 
         /* Describe the "race" */
         if (flags3 & RF3_DRAGON) roff(" dragon");
-        else if (flags3 & RF3_DEMON) roff(" demon");
+        else if (flags3 & RF3_DEMON) roff(" fiend");
         else if (flags3 & RF3_GIANT) roff(" giant");
         else if (flags3 & RF3_TROLL) roff(" troll");
         else if (flags3 & RF3_ORC) roff(" orc");
@@ -860,8 +860,8 @@ static void roff_aux(int r_idx)
     if (flags6 & RF6_S_SPIDER)		vp[vn++] = "summon spiders";
     if (flags6 & RF6_S_HOUND)		vp[vn++] = "summon hounds";
     if (flags6 & RF6_S_HYDRA)		vp[vn++] = "summon hydras";
-    if (flags6 & RF6_S_ANGEL)		vp[vn++] = "summon an angel";
-    if (flags6 & RF6_S_DEMON)		vp[vn++] = "summon a demon";
+    if (flags6 & RF6_S_ANGEL)		vp[vn++] = "summon a celestial";
+    if (flags6 & RF6_S_DEMON)		vp[vn++] = "summon a fiend";
     if (flags6 & RF6_S_UNDEAD)		vp[vn++] = "summon an undead";
     if (flags6 & RF6_S_DRAGON)		vp[vn++] = "summon a dragon";
     if (flags6 & RF6_S_HI_UNDEAD)	vp[vn++] = "summon Greater Undead";
@@ -1564,6 +1564,5 @@ void display_roff(int r_idx)
     /* Hack -- describe the monster */
     roff_top(r_idx);
 }
-
 
 

@@ -115,7 +115,7 @@ are very out of date)
 (Holy Avenger)
      A Holy Avenger is one of the more powerful of weapons.  A Holy Avenger
      will increase your wisdom and your armour class.  This weapon will do
-     extra damage when used against evil, demonic and undead creatures, and
+     extra damage when used against evil, fiendish and undead creatures, and
      will also give you the ability to see invisible creatures.  These
      weapons are basically extremely powerful versions of Blessed Blades
      and can be wielded by priests with no penalty.
@@ -184,9 +184,9 @@ Weapon of Slay Giant
      A Slay Giant weapon does treble damage against anything of
      giant-humanoidal form.
 
-Weapon of Slay Demon
-     A Slay Demon weapon does treble damage against anything of Hellish
-     nature such as the Minor and Major Demons.
+Weapon of Slay Fiend
+     A Slay Fiend weapon does treble damage against anything of Hellish
+     nature such as the Minor and Major Fiends.
 
 Whips of Fire
      These are one of the balrogs' favorite weapons, delivering heat

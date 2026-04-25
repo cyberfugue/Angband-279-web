@@ -71,7 +71,7 @@ something you are more comfortable with.
  
             $   Creeping Coins      ,   Mushroom Patch
     
-            a   Giant Ant           A   Angelic being
+            a   Giant Ant           A   Celestial being
             b   Giant Bat           B   Bird
             c   Giant Centipede     C   Canine
             d   Dragon              D   Ancient Dragon
@@ -91,7 +91,7 @@ something you are more comfortable with.
             r   Rodent              R   Reptile/Amphibian
             s   Skeleton            S   Spider/Scorpion/Tick
             t   Townsperson         T   Troll
-            u   Minor demon         U   Major demon
+            u   Minor fiend         U   Major fiend
             v   Vortex              V   Vampire
             w   Worm or Worm Mass   W   Wight/Wraith.
             x   (unused)            X   Xorn/Xaren
