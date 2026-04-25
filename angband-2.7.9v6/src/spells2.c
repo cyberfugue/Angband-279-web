@@ -744,7 +744,7 @@ void self_knowledge()
         }
         if (f1 & TR1_SLAY_DEMON)
         {
-            info[i++] = "Your weapon strikes at demons with holy wrath.";
+            info[i++] = "Your weapon strikes at fiends with holy wrath.";
         }
         if (f1 & TR1_SLAY_ORC)
         {

@@ -453,7 +453,7 @@ static flag_desc slay_flags_desc[] = {
         { TR1_SLAY_ANIMAL,        "Animal" },
         { TR1_SLAY_EVIL,          "Evil" },
         { TR1_SLAY_UNDEAD,        "Undead" },
-        { TR1_SLAY_DEMON,         "Demon" },
+        { TR1_SLAY_DEMON,         "Fiend" },
         { TR1_SLAY_ORC,           "Orc" },
         { TR1_SLAY_TROLL,         "Troll" },
         { TR1_SLAY_GIANT,         "Giant" },
@@ -1625,7 +1625,7 @@ static void spoil_mon_info(cptr fname)
     if (flags3 & RF3_UNDEAD) spoil_out(" undead");
 
     if (flags3 & RF3_DRAGON) spoil_out(" dragon");
-    else if (flags3 & RF3_DEMON) spoil_out(" demon");
+    else if (flags3 & RF3_DEMON) spoil_out(" fiend");
     else if (flags3 & RF3_GIANT) spoil_out(" giant");
     else if (flags3 & RF3_TROLL) spoil_out(" troll");
     else if (flags3 & RF3_ORC) spoil_out(" orc");
@@ -1810,8 +1810,8 @@ static void spoil_mon_info(cptr fname)
     if (flags6 & RF6_S_SPIDER)          vp[vn++] = "summon spiders";
     if (flags6 & RF6_S_HOUND)           vp[vn++] = "summon hounds";
     if (flags6 & RF6_S_HYDRA)           vp[vn++] = "summon hydras";
-    if (flags6 & RF6_S_ANGEL)           vp[vn++] = "summon an angel";
-    if (flags6 & RF6_S_DEMON)           vp[vn++] = "summon a demon";
+    if (flags6 & RF6_S_ANGEL)           vp[vn++] = "summon a celestial";
+    if (flags6 & RF6_S_DEMON)           vp[vn++] = "summon a fiend";
     if (flags6 & RF6_S_UNDEAD)          vp[vn++] = "summon an undead";
     if (flags6 & RF6_S_DRAGON)          vp[vn++] = "summon a dragon";
     if (flags6 & RF6_S_HI_UNDEAD)       vp[vn++] = "summon greater undead";
@@ -2322,5 +2322,4 @@ static int i = 0;
 #endif
 
 #endif
-
 

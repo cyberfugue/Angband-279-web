@@ -1492,7 +1492,7 @@ bool make_attack_spell(int m_idx)
         case 160+24:    /* RF6_S_ANGEL */
             disturb(1, 0);
             if (blind) msg_format("%^s mumbles.", m_name);
-            else msg_format("%^s magically summons an angel!", m_name);
+            else msg_format("%^s magically summons a celestial!", m_name);
             for (k = 0; k < 1; k++)
             {
                 count += summon_specific(y, x, rlev, SUMMON_ANGEL);

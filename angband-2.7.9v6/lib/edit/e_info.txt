@@ -452,7 +452,7 @@ X:24:18
 W:0:0:0:3500
 F:SLAY_UNDEAD
 
-N:83:of Slay Demon
+N:83:of Slay Fiend
 X:24:14
 W:0:0:0:2500
 F:SLAY_DEMON
@@ -497,7 +497,7 @@ W:0:0:0:8000
 C:0:0:0:2
 F:WIS | SLAY_UNDEAD | SEE_INVIS
 
-N:91:of *Slay* Demon
+N:91:of *Slay* Fiend
 X:24:16
 W:0:0:0:4000
 C:0:0:0:2

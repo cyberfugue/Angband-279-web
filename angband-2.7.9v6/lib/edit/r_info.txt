@@ -45,8 +45,8 @@
 
 # The Umber Hulk joined the Xorn/Xaren (X).  The ticks (t) joined the
 # spiders (S).  The townspeople (t) left the people (p).  The "Jabberwock"
-# became the "Chaos beetle" (K).  The major demons (&) became (U) and the
-# minor demons (I) became (u).  Multiplying insects (fleas, fruit flies,
+# became the "Chaos beetle" (K).  The major fiends (&) became (U) and the
+# minor fiends (I) became (u).  Multiplying insects (fleas, fruit flies,
 # hummerhorns) became (I), visually "matching" the multiplying lice (l).
 # The "ant lions" (a) became "ants" (a).  The mummified monsters (M)
 # joined the zombified monsters (z).  The multi-headed hydras (M) left
@@ -1224,7 +1224,7 @@ B:HIT:HURT:1d8
 F:FRIENDS | 
 F:OPEN_DOOR | BASH_DOOR | 
 F:EVIL | DEMON | IM_FIRE | NO_FEAR
-D:It is a minor but aggressive demon.
+D:It is a minor but aggressive fiend.
 
 N:101:Bloodshot eye
 G:e:r
@@ -1459,7 +1459,7 @@ B:HIT:HURT:1d8
 F:FRIENDS | 
 F:OPEN_DOOR | BASH_DOOR | 
 F:EVIL | DEMON | IM_FIRE | NO_FEAR
-D:It is the larval form of a major demon.
+D:It is the larval form of a major fiend.
 
 N:120:Hill orc
 G:o:u
@@ -1803,8 +1803,8 @@ F:OPEN_DOOR | BASH_DOOR |
 F:EVIL | DEMON | IM_FIRE | NO_FEAR
 S:1_IN_3 | 
 S:BLINK | TELE_TO
-D:It is a fast-moving demon that blinks quickly in and out of existence; no 
-D:other demon matches its teleporting mastery.
+D:It is a fast-moving fiend that blinks quickly in and out of existence; no 
+D:other fiend matches its teleporting mastery.
 
 N:146:Creeping gold coins
 G:$:y
@@ -2507,7 +2507,7 @@ B:HIT:PARALYZE:1d2
 B:HIT:HURT:1d10
 F:OPEN_DOOR | BASH_DOOR | 
 F:EVIL | DEMON | IM_FIRE | NO_FEAR
-D:It is a small demonic spirit full of malevolence.
+D:It is a small fiendish spirit full of malevolence.
 
 N:202:Gnome mage
 G:h:r
@@ -3721,7 +3721,7 @@ F:TAKE_ITEM | OPEN_DOOR | BASH_DOOR | POWERFUL |
 F:IM_ACID | IM_POIS | NO_CONF | NO_SLEEP
 S:1_IN_3 | 
 S:BLIND | CONF | SCARE | FORGET
-D:A lesser angel wearing little more than a loincloth - its steely skin 
+D:A lesser celestial wearing little more than a loincloth - its steely skin 
 D:provides all the protection it needs.
 
 N:290:Mim, Betrayer of Turin
@@ -4066,7 +4066,7 @@ F:SMART | TAKE_ITEM | OPEN_DOOR | BASH_DOOR | POWERFUL |
 F:IM_FIRE | IM_COLD | IM_POIS | NO_CONF | NO_SLEEP
 S:1_IN_3 | 
 S:HEAL | HASTE | BLIND | CONF | SCARE
-D:A lesser angel protected by an aura of holiness.  Its muscular form looks 
+D:A lesser celestial protected by an aura of radiance.  Its muscular form looks 
 D:extremely powerful next to your own frail body.
 
 N:312:Catoblepas
@@ -4673,7 +4673,7 @@ F:NO_CONF | NO_SLEEP
 S:1_IN_3 | 
 S:HEAL | HASTE | BLIND | SCARE | MIND_BLAST | BO_FIRE | 
 S:S_MONSTERS
-D:It is an angel moving very quickly, wielding a holy war hammer and casting 
+D:It is a celestial moving very quickly, wielding a holy war hammer and casting 
 D:a volley of powerful spells in your direction.
 
 N:351:Water elemental
@@ -5338,7 +5338,7 @@ S:S_MONSTERS
 D:A mighty warrior from the east, Lorgan hates everything that he cannot 
 D:control.
 
-N:393:Demonologist
+N:393:Warlock
 G:p:R
 I:120:28d10:20:50:10
 W:36:2:0:700
@@ -5708,7 +5708,7 @@ F:NO_CONF | NO_SLEEP
 S:1_IN_11 | 
 S:HEAL | HASTE | TELE_AWAY | CONF | BO_MANA | BO_PLAS | 
 S:S_MONSTERS | S_ANGEL
-D:It is an angel, fast and strong.  You are stunned by its extreme holiness 
+D:It is a celestial, fast and strong.  You are stunned by its extreme radiance 
 D:and try to resist all desires to obey it.
 
 N:416:Vargo, Tyrant of Fire
@@ -5760,7 +5760,7 @@ F:EVIL | DEMON |
 F:IM_FIRE | IM_POIS | NO_CONF | NO_SLEEP
 S:1_IN_7 | 
 S:BLIND | CONF | BO_FIRE
-D:It is a lesser demon of female form; however, she takes little time to 
+D:It is a lesser fiend of female form; however, she takes little time to 
 D:show her true colours.
 
 N:419:Nether wraith
@@ -6233,7 +6233,7 @@ F:OPEN_DOOR | BASH_DOOR | POWERFUL |
 F:EVIL | DEMON | IM_FIRE | NO_CONF | NO_SLEEP
 S:1_IN_8 | 
 S:BLIND | CONF
-D:It is a demon with a long neck and raking claws.
+D:It is a fiend with a long neck and raking claws.
 
 N:448:Death quasit
 G:u:D
@@ -6250,7 +6250,7 @@ F:NO_CONF | NO_SLEEP | NO_FEAR
 S:1_IN_10 | 
 S:BLIND | CONF | SCARE | CAUSE_3 | FORGET | 
 S:S_DEMON
-D:It is a demon of small stature, but its armoured frame moves with 
+D:It is a fiend of small stature, but its armoured frame moves with 
 D:lightning speed and its powers make it a tornado of death and destruction.
 
 N:449:Adunaphel the Quiet
@@ -6324,7 +6324,7 @@ F:EVIL | DEMON | IM_FIRE | NO_CONF | NO_SLEEP
 S:1_IN_9 | 
 S:BO_FIRE | 
 S:S_DEMON
-D:It is a demon of lizard form with cruel-looking jaws.
+D:It is a fiend of lizard form with cruel-looking jaws.
 
 N:453:Akhorahil the Blind
 G:W:D
@@ -6380,7 +6380,7 @@ F:IM_ACID | IM_FIRE | IM_COLD | IM_ELEC | IM_POIS
 S:1_IN_3 | 
 S:TELE_TO | BLIND | SCARE | CAUSE_2 | CAUSE_4 | BO_MANA | 
 S:S_ANGEL
-D:Never a more heavenly being have you seen.  The very holiness of its 
+D:Never a more heavenly being have you seen.  The very radiance of its 
 D:presence makes you deeply respect it.  Few creatures can match the powers 
 D:of a Solar; fewer still live to tell the tale after attacking one.
 
@@ -6397,7 +6397,7 @@ F:EVIL | DEMON | IM_FIRE | NO_CONF | NO_SLEEP
 S:1_IN_9 | 
 S:BO_FIRE | 
 S:S_DEMON
-D:It is demon with arms and pincers, its form a true mockery of life.
+D:It is fiend with arms and pincers, its form a true mockery of life.
 
 N:457:Ren the Unclean
 G:W:D
@@ -6436,7 +6436,7 @@ S:1_IN_9 |
 S:BLIND | CONF | 
 S:BR_FIRE | 
 S:S_DEMON
-D:It is a large demon with the head of a giant boar.  Flames run up and down 
+D:It is a large fiend with the head of a giant boar.  Flames run up and down 
 D:its length.
 
 N:459:Undead beholder
@@ -6566,7 +6566,7 @@ F:EVIL | DEMON | IM_FIRE | NO_CONF | NO_SLEEP
 S:1_IN_9 | 
 S:BLIND | CAUSE_2 | 
 S:S_DEMON
-D:She is a demon of female form with many arms, each bearing deadly weapons.
+D:She is a fiend of female form with many arms, each bearing deadly weapons.
 
 N:466:Quaker, Master of Earth
 G:E:u
@@ -6604,7 +6604,7 @@ S:1_IN_4 |
 S:BLIND | CONF | 
 S:BR_FIRE | 
 S:S_DEMON
-D:It is a massive humanoid demon wreathed in flames.
+D:It is a massive humanoid fiend wreathed in flames.
 
 N:468:Ariel, Queen of Air
 G:E:B
@@ -6992,7 +6992,7 @@ D:The very air warps as pure elemental energy stalks towards you in the
 D:shape of a giant hound.  Your hair stands on end and your palms itch as 
 D:you sense trouble.
 
-N:488:Demonic quylthulg
+N:488:Fiendish quylthulg
 G:Q:r
 I:120:48d10:20:1:0
 W:51:1:0:3000
@@ -7041,7 +7041,7 @@ F:EVIL | IM_FIRE | IM_POIS | NO_CONF | NO_SLEEP
 S:1_IN_6 | 
 S:SLOW | ARROW_4 | BO_MANA | BO_PLAS | BA_ELEC | 
 S:BR_WALL
-D:A fearsome bull-headed demon, Baphomet swings a mighty axe as he curses 
+D:A fearsome bull-headed fiend, Baphomet swings a mighty axe as he curses 
 D:all that defy him.
 
 N:491:Harowen the Black Hand
@@ -7488,7 +7488,7 @@ F:IM_ACID | IM_FIRE | IM_COLD | IM_ELEC | IM_POIS
 S:1_IN_2 | 
 S:TELE_TO | BLIND | BO_MANA | 
 S:S_ANGEL
-D:Commanding a legion of angels, Gabriel will destroy you for your sins.  He 
+D:Commanding a legion of celestials, Gabriel will destroy you for your sins.  He 
 D:will crush you like the pitiful insignificant being he sees you to be.  
 D:Your very soul will be taken into judgement by his supreme authority as he 
 D:cleanses the world of evil.
@@ -8204,4 +8204,3 @@ D:him.  His disgusting visage, twisted with evil, is crowned with iron, the
 D:two remaining Silmarils forever burning him.  Grond, the mighty Hammer of 
 D:the Underworld, cries defiance as he strides towards you to crush you to a 
 D:pulp!
-

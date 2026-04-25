@@ -13,6 +13,22 @@
 #include "angband.h"
 
 
+/*
+ * Return TRUE for non-unique angelic/demonic races that are removed
+ * from normal monster generation.
+ */
+static bool removed_celestial_or_fiend(const monster_race *r_ptr)
+{
+    /* Keep unique characters */
+    if (r_ptr->flags1 & RF1_UNIQUE) return (FALSE);
+
+    /* Remove angel/demon race groups */
+    if ((r_ptr->r_char == 'A') || (r_ptr->flags3 & RF3_DEMON)) return (TRUE);
+
+    return (FALSE);
+}
+
+
 
 /*
  * Delete a monster by index.
@@ -450,6 +466,9 @@ s16b get_mon_num(int level)
 
         /* Access the actual race */
         r_ptr = &r_info[r_idx];
+
+        /* Remove non-unique angel/demon monsters */
+        if (removed_celestial_or_fiend(r_ptr)) continue;
 
 
         /* Hack -- "unique" monsters must be "unique" */
@@ -1927,5 +1946,4 @@ void update_smart_learn(int m_idx, int what)
 #endif /* DRS_SMART_OPTIONS */
 
 }
-
 
