@@ -1,18 +1,3 @@
-const term = new Terminal({
-  cursorBlink: true,
-  fontSize: 15,
-  fontFamily: "monospace",
-  convertEol: false,
-});
-const fitAddon = new FitAddon.FitAddon();
-term.loadAddon(fitAddon);
-term.open(document.getElementById("terminal"));
-fitAddon.fit();
-term.focus();
-term.writeln("Connecting to Angband server...");
-
-let cursor = 0;
-let hadSuccessfulPoll = false;
 const statusEl = document.getElementById("status");
 
 function setStatus(message, tone = "info") {
@@ -21,6 +6,40 @@ function setStatus(message, tone = "info") {
   if (tone === "ok") statusEl.classList.add("status--ok");
   if (tone === "error") statusEl.classList.add("status--error");
 }
+
+setStatus("Loading terminal UI...");
+
+if (!window.Terminal || !window.FitAddon?.FitAddon) {
+  setStatus(
+    "Terminal assets failed to load. Please disable content blockers or reload on a stable connection.",
+    "error"
+  );
+  throw new Error("xterm.js is unavailable");
+}
+
+let term;
+let fitAddon;
+
+try {
+  term = new Terminal({
+    cursorBlink: true,
+    fontSize: 15,
+    fontFamily: "monospace",
+    convertEol: false,
+  });
+  fitAddon = new FitAddon.FitAddon();
+  term.loadAddon(fitAddon);
+  term.open(document.getElementById("terminal"));
+  fitAddon.fit();
+  term.focus();
+  term.writeln("Connecting to Angband server...");
+} catch (err) {
+  setStatus(`Terminal failed to start: ${err.message}`, "error");
+  throw err;
+}
+
+let cursor = 0;
+let hadSuccessfulPoll = false;
 
 setStatus("Connecting to the game backend...");
 
