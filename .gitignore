@@ -1,0 +1,8 @@
+# Python
+__pycache__/
+*.pyc
+
+# Compiled game binary and object files
+angband-2.7.9v6/angband
+angband-2.7.9v6/src/angband
+angband-2.7.9v6/src/*.o
