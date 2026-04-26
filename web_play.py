@@ -75,12 +75,18 @@ class GameSession:
             self.master_fd = None
 
     def _reader_loop(self) -> None:
-        while self.master_fd is not None:
-            ready, _, _ = select.select([self.master_fd], [], [], 0.1)
+        while True:
+            fd = self.master_fd
+            if fd is None:
+                break
+            try:
+                ready, _, _ = select.select([fd], [], [], 0.1)
+            except (ValueError, OSError):
+                break
             if not ready:
                 continue
             try:
-                chunk = os.read(self.master_fd, 4096)
+                chunk = os.read(fd, 4096)
             except OSError:
                 break
             if not chunk:
@@ -129,7 +135,7 @@ class Handler(SimpleHTTPRequestHandler):
                 query = self.path.split("?", 1)[1]
                 pairs = dict(p.split("=", 1) for p in query.split("&") if "=" in p)
                 since = int(pairs.get("since", "0"))
-            except Exception:
+            except (ValueError, IndexError, KeyError):
                 since = 0
             self._write_json(SESSION.read_from(since))
             return
@@ -138,7 +144,11 @@ class Handler(SimpleHTTPRequestHandler):
     def do_POST(self) -> None:
         length = int(self.headers.get("Content-Length", "0"))
         body = self.rfile.read(length) if length else b"{}"
-        payload = json.loads(body.decode("utf-8"))
+        try:
+            payload = json.loads(body.decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            self._write_json({"error": "bad request"}, status=HTTPStatus.BAD_REQUEST)
+            return
 
         if self.path == "/api/input":
             SESSION.write(payload.get("data", ""))
