@@ -7025,25 +7025,6 @@ D:A vast dragon of power.  Storms and lightning crash around its titanic
 D:form.  Deep blue scales reflect the flashes and highlight the creature's 
 D:great muscles.  It regards you with contempt.
 
-N:490:Baphomet the Minotaur Lord
-G:H:s
-I:130:35d100:30:120:30
-W:51:4:0:18000
-B:BUTT:HURT:12d13
-B:BUTT:HURT:12d13
-B:HIT:HURT:10d10
-B:HIT:HURT:10d10
-F:UNIQUE | MALE | 
-F:FORCE_SLEEP | FORCE_MAXHP | 
-F:ONLY_ITEM | DROP_1D2 | DROP_4D2 | DROP_GOOD | 
-F:BASH_DOOR | 
-F:EVIL | IM_FIRE | IM_POIS | NO_CONF | NO_SLEEP
-S:1_IN_6 | 
-S:SLOW | ARROW_4 | BO_MANA | BO_PLAS | BA_ELEC | 
-S:BR_WALL
-D:A fearsome bull-headed fiend, Baphomet swings a mighty axe as he curses 
-D:all that defy him.
-
 N:491:Harowen the Black Hand
 G:p:B
 I:140:25d100:40:90:0
@@ -7382,51 +7363,6 @@ D:earned a high position in the church, and his skill with both weapon and
 D:spell only justify his position further.  His combination of both dwarven 
 D:strength and priestly wisdom are a true match for any adventurer.
 
-N:509:Uriel, Angel of Fire
-G:A:r
-I:130:55d100:40:160:10
-W:56:3:0:25000
-B:HIT:FIRE:9d12
-B:HIT:FIRE:4d6
-B:HIT:HURT:10d10
-B:HIT:HURT:10d10
-F:UNIQUE | MALE | 
-F:FORCE_SLEEP | FORCE_MAXHP | 
-F:ONLY_ITEM | DROP_3D2 | DROP_4D2 | DROP_GOOD | 
-F:SMART | TAKE_ITEM | OPEN_DOOR | BASH_DOOR | POWERFUL | MOVE_BODY | 
-F:IM_ACID | IM_FIRE | IM_COLD | IM_ELEC | IM_POIS
-S:1_IN_2 | 
-S:TELE_TO | BLIND | 
-S:BO_FIRE | BO_MANA | BA_FIRE | 
-S:BR_FIRE | 
-S:S_ANGEL
-D:A creature of godly appearance, you dare not challenge Uriel's supremacy.  
-D:Those who stood against him before are but a memory, cremated by his 
-D:mastery of elemental fire.
-
-N:510:Azriel, Angel of Death
-G:A:D
-I:130:60d100:40:170:10
-W:57:3:0:30000
-B:TOUCH:EXP_80
-B:HIT:BLIND:10d5
-B:HIT:HURT:10d10
-B:HIT:HURT:10d10
-F:UNIQUE | MALE | 
-F:FORCE_SLEEP | FORCE_MAXHP | SMART | 
-F:ONLY_ITEM | DROP_3D2 | DROP_4D2 | DROP_GOOD | 
-F:SMART | TAKE_ITEM | OPEN_DOOR | BASH_DOOR | POWERFUL | MOVE_BODY | 
-F:IM_ACID | IM_FIRE | IM_COLD | IM_ELEC | IM_POIS
-S:1_IN_2 | 
-S:TELE_TO | BLIND | 
-S:BO_MANA | BO_NETH | BA_NETH | 
-S:BR_NETH | 
-S:S_ANGEL
-D:Azriel commands awesome power, his visage holy enough to shrivel your 
-D:soul.  You shriek with disbelief as his mastery of death draws you to your 
-D:grave.  It is truly beyond all but the mightiest of warriors to stand 
-D:against him and live.
-
 N:511:Ancalagon the Black
 G:D:D
 I:120:75d100:20:125:70
@@ -7470,28 +7406,6 @@ D:a dragon.  With terrible blows, it breaks your armour from your back,
 D:leaving you defenseless against its evil wrath.  It can smell your fear, 
 D:and you in turn smell the awful stench of death as this ghastly figure 
 D:strides towards you menacingly.
-
-N:513:Gabriel, the Messenger
-G:A:w
-I:130:75d100:40:180:10
-W:59:3:0:35000
-B:HIT:UN_BONUS:6d8
-B:HIT:FIRE:4d6
-B:HIT:HURT:10d10
-B:HIT:HURT:10d10
-F:UNIQUE | MALE | 
-F:FORCE_SLEEP | FORCE_MAXHP | SMART | 
-F:ESCORT | 
-F:ONLY_ITEM | DROP_3D2 | DROP_4D2 | DROP_GOOD | 
-F:SMART | TAKE_ITEM | OPEN_DOOR | BASH_DOOR | POWERFUL | MOVE_BODY | 
-F:IM_ACID | IM_FIRE | IM_COLD | IM_ELEC | IM_POIS
-S:1_IN_2 | 
-S:TELE_TO | BLIND | BO_MANA | 
-S:S_ANGEL
-D:Commanding a legion of celestials, Gabriel will destroy you for your sins.  He 
-D:will crush you like the pitiful insignificant being he sees you to be.  
-D:Your very soul will be taken into judgement by his supreme authority as he 
-D:cleanses the world of evil.
 
 N:514:Saruman of Many Colours
 G:p:v
@@ -8096,26 +8010,6 @@ S:S_HOUND
 D:The first guard of Angband, Carcharoth, also known as 'The Red Maw', is 
 D:the largest wolf to ever walk the earth.  He is highly intelligent and a 
 D:deadly opponent in combat.
-
-N:544:Cerberus, Guardian of Hades
-G:C:r
-I:130:100d100:50:160:10
-W:94:1:0:40000
-B:HIT:FIRE:9d12
-B:HIT:FIRE:9d12
-B:HIT:FIRE:9d12
-B:HIT:FIRE:9d12
-F:UNIQUE | 
-F:FORCE_SLEEP | FORCE_MAXHP | 
-F:ONLY_ITEM | DROP_4D2 | DROP_GOOD | 
-F:OPEN_DOOR | BASH_DOOR | MOVE_BODY | 
-F:ANIMAL | EVIL | IM_FIRE | NO_CONF | NO_SLEEP
-S:1_IN_3 | 
-S:BA_DARK | 
-S:BR_FIRE | BR_NETH | 
-S:S_HOUND
-D:A two-headed hell hound of fearsome aspect.  Flame burns merrily from its 
-D:hide as it snarls and roars its defiance.
 
 N:545:Gothmog, the High Captain of Balrogs
 G:U:R
