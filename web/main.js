@@ -44,11 +44,16 @@ let hadSuccessfulPoll = false;
 setStatus("Connecting to the game backend...");
 
 async function post(path, data) {
-  await fetch(path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+  try {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  } catch (err) {
+    setStatus(`Request to ${path} failed: ${err.message}`, "error");
+  }
 }
 
 async function pump() {
