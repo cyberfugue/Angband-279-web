@@ -26,76 +26,100 @@ try {
     fontSize: 15,
     fontFamily: "monospace",
     convertEol: false,
+    scrollback: 0,
   });
   fitAddon = new FitAddon.FitAddon();
   term.loadAddon(fitAddon);
   term.open(document.getElementById("terminal"));
   fitAddon.fit();
   term.focus();
-  term.writeln("Connecting to Angband server...");
 } catch (err) {
   setStatus(`Terminal failed to start: ${err.message}`, "error");
   throw err;
 }
 
-let cursor = 0;
-let hadSuccessfulPoll = false;
+setStatus("Loading Angband...");
 
-setStatus("Connecting to the game backend...");
+// Output buffer: accumulate chars from C fflush calls, then write to xterm.js.
+// Module.print is called by Emscripten when C flushes a line to stdout.
+let outputBuffer = "";
 
-async function post(path, data) {
-  try {
-    const res = await fetch(path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  } catch (err) {
-    setStatus(`Request to ${path} failed: ${err.message}`, "error");
-  }
-}
+// The Module object must exist before angband.js is loaded so Emscripten
+// picks up our overrides (print, preRun, onRuntimeInitialized).
+window.Module = {
+  // Key queue shared between xterm.js (producer) and js_getchar (consumer).
+  _keyQueue: [],
+  _keyWaiter: null,
 
-async function pump() {
-  try {
-    const res = await fetch(`/api/output?since=${cursor}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const payload = await res.json();
-    if (!hadSuccessfulPoll) {
-      hadSuccessfulPoll = true;
-      setStatus("Connected. Use your keyboard to play.", "ok");
+  preRun: [
+    function () {
+      // Tell the game where its data files live (preloaded at /lib).
+      Module.ENV.ANGBAND_PATH = "/lib/";
+      Module.ENV.TERM = "vt100";
+    },
+  ],
+
+  // Emscripten calls Module.print() for each chunk of stdout that was
+  // flushed (either on \n or when C calls fflush).  We pipe it straight
+  // to xterm.js so escape sequences are rendered by the terminal.
+  print: function (text) {
+    term.write(text);
+  },
+
+  printErr: function () {
+    // Suppress stderr noise.
+  },
+
+  // Progress hook while angband.data is downloading.
+  setStatus: function (msg) {
+    if (msg) setStatus("Loading game data: " + msg);
+  },
+
+  onRuntimeInitialized: function () {
+    setStatus("Starting Angband...");
+    try {
+      Module.callMain([]);
+    } catch (e) {
+      // Asyncify unwinds via a thrown object on first suspend; ignore it.
     }
-    cursor = payload.next;
-    if (payload.data) term.write(payload.data);
-  } catch (err) {
-    if (!hadSuccessfulPoll) {
-      setStatus(
-        "No backend detected. This Vercel deploy is frontend-only, so Angband cannot run here. Run the Python server locally or connect this page to a live backend.",
-        "error"
-      );
+    // After callMain returns the game is running asynchronously via Asyncify.
+    // Clear the status bar so it doesn't overlap the game screen.
+    setStatus("", "ok");
+  },
+};
+
+// Wire xterm.js keyboard input → WASM key queue.
+// Each character (or escape sequence byte) is pushed as a char code.
+term.onData(function (data) {
+  for (let i = 0; i < data.length; i++) {
+    const code = data.charCodeAt(i);
+    if (Module._keyWaiter) {
+      const wakeUp = Module._keyWaiter;
+      Module._keyWaiter = null;
+      wakeUp(code);
     } else {
-      setStatus("Connection lost. Trying to reconnect...", "error");
-      term.writeln("\r\n[connection lost]");
+      Module._keyQueue.push(code);
     }
-  } finally {
-    setTimeout(pump, hadSuccessfulPoll ? 30 : 1000);
   }
-}
-
-term.onData((data) => post("/api/input", { data }));
-
-async function resize() {
-  fitAddon.fit();
-  await post("/api/resize", { rows: term.rows, cols: term.cols });
-}
-
-window.addEventListener("resize", resize);
-document.getElementById("reset").addEventListener("click", async () => {
-  await post("/api/reset", {});
-  term.reset();
-  cursor = 0;
-  hadSuccessfulPoll = false;
-  setStatus("Restart requested. Reconnecting...");
 });
 
-resize().then(pump);
+// Resize the terminal when the window changes.
+window.addEventListener("resize", function () {
+  fitAddon.fit();
+});
+
+// Reset: reload the page so the WASM restarts cleanly.
+document.getElementById("reset").addEventListener("click", function () {
+  window.location.reload();
+});
+
+// Dynamically load the Emscripten-generated game script.
+const script = document.createElement("script");
+script.src = "./angband.js";
+script.onerror = function () {
+  setStatus(
+    "Failed to load angband.js. Make sure the WASM files are deployed.",
+    "error"
+  );
+};
+document.head.appendChild(script);

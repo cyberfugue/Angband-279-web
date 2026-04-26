@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "headers": [
+    {
+      "source": "/angband.wasm",
+      "headers": [{ "key": "Content-Type", "value": "application/wasm" }]
+    }
+  ],
   "routes": [
     { "src": "^/$", "dest": "/web/index.html" },
     { "src": "^/(.*)$", "dest": "/web/$1" }

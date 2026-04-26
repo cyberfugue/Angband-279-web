@@ -432,6 +432,16 @@ int main(int argc, char *argv[])
     }
 #endif
 
+#ifdef USE_WEB
+    /* Attempt to use the "main-web.c" (Emscripten/WebAssembly) support */
+    if (!done)
+    {
+        extern errr init_web(void);
+        if (0 == init_web()) done = TRUE;
+        if (done) ANGBAND_SYS = "web";
+    }
+#endif
+
 
 #ifdef USE_IBM
     /* Attempt to use the "main-ibm.c" support */
