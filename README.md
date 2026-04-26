@@ -29,3 +29,18 @@ Then open:
 
 - This is server-hosted terminal gameplay (not WASM). The Angband process runs on the server, and browser keystrokes are forwarded to it.
 - The game uses `ANGBAND_PATH=angband-2.7.9v6/lib` automatically in `web_play.py`.
+
+## Deploy on Vercel
+
+This repository can be deployed to Vercel as a **static frontend** (the files in `web/`).
+
+- `vercel.json` maps `/` to `web/index.html` and serves all other paths from `web/`.
+- The Python PTY backend in `web_play.py` is **not** run by this Vercel setup.
+
+Deploy steps:
+
+1. Import this repo into Vercel.
+2. Keep framework preset as **Other**.
+3. Deploy (no build command required).
+
+If you want full playable server-backed Angband on Vercel, you would need a separate always-on backend that supports WebSockets/PTY processes.
