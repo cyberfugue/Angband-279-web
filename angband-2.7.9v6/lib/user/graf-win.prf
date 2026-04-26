@@ -2996,8 +2996,6 @@ R:488:0x8A:0xA2
 # Great storm wyrm
 R:489:0x88:0xBB
 
-# Baphomet the Minotaur Lord
-R:490:0x89:0xB5
 
 # Harowen the Black Hand
 R:491:0x8F:0xA6
@@ -3053,11 +3051,7 @@ R:507:0x8A:0xA3
 # Fundin Bluecloak
 R:508:0x8D:0xAB
 
-# Uriel, Angel of Fire
-R:509:0x88:0x97
 
-# Azriel, Angel of Death
-R:510:0x88:0x98
 
 # Ancalagon the Black
 R:511:0x88:0xBE
@@ -3065,8 +3059,6 @@ R:511:0x88:0xBE
 # Nightwalker
 R:512:0x8B:0xB5
 
-# Gabriel, the Messenger
-R:513:0x88:0x99
 
 # Saruman of Many Colours
 R:514:0x8F:0xA8
@@ -3158,8 +3150,6 @@ R:542:0x8A:0x8C
 # Carcharoth, the Jaws of Thirst
 R:543:0x88:0xA9
 
-# Cerberus, Guardian of Hades
-R:544:0x88:0xAA
 
 # Gothmog, the High Captain of Balrogs
 R:545:0x90:0xA3
