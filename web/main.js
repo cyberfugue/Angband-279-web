@@ -9,8 +9,20 @@ term.loadAddon(fitAddon);
 term.open(document.getElementById("terminal"));
 fitAddon.fit();
 term.focus();
+term.writeln("Connecting to Angband server...");
 
 let cursor = 0;
+let hadSuccessfulPoll = false;
+const statusEl = document.getElementById("status");
+
+function setStatus(message, tone = "info") {
+  statusEl.textContent = message;
+  statusEl.classList.remove("status--ok", "status--error");
+  if (tone === "ok") statusEl.classList.add("status--ok");
+  if (tone === "error") statusEl.classList.add("status--error");
+}
+
+setStatus("Connecting to the game backend...");
 
 async function post(path, data) {
   await fetch(path, {
@@ -23,13 +35,26 @@ async function post(path, data) {
 async function pump() {
   try {
     const res = await fetch(`/api/output?since=${cursor}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
+    if (!hadSuccessfulPoll) {
+      hadSuccessfulPoll = true;
+      setStatus("Connected. Use your keyboard to play.", "ok");
+    }
     cursor = payload.next;
     if (payload.data) term.write(payload.data);
   } catch (err) {
-    term.writeln("\r\n[connection lost]");
+    if (!hadSuccessfulPoll) {
+      setStatus(
+        "No backend detected. This Vercel deploy is frontend-only, so Angband cannot run here. Run the Python server locally or connect this page to a live backend.",
+        "error"
+      );
+    } else {
+      setStatus("Connection lost. Trying to reconnect...", "error");
+      term.writeln("\r\n[connection lost]");
+    }
   } finally {
-    setTimeout(pump, 30);
+    setTimeout(pump, hadSuccessfulPoll ? 30 : 1000);
   }
 }
 
@@ -45,6 +70,8 @@ document.getElementById("reset").addEventListener("click", async () => {
   await post("/api/reset", {});
   term.reset();
   cursor = 0;
+  hadSuccessfulPoll = false;
+  setStatus("Restart requested. Reconnecting...");
 });
 
 resize().then(pump);

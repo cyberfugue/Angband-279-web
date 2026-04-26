@@ -17,9 +17,28 @@ header {
   border-bottom: 1px solid #333;
 }
 main { padding: 0.5rem; }
+.status {
+  margin: 0 0 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid #4a4a4a;
+  background: #1a1a1a;
+  color: #ddd;
+  font-size: 0.9rem;
+}
+.status--ok {
+  border-color: #2f7f3f;
+  background: #112916;
+  color: #cdeed4;
+}
+.status--error {
+  border-color: #8c3b3b;
+  background: #2a1414;
+  color: #f2c6c6;
+}
 #terminal {
   width: 100%;
-  height: calc(100vh - 68px);
+  height: calc(100vh - 120px);
   border: 1px solid #333;
 }
 button {
