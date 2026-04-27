@@ -40,10 +40,6 @@ try {
 
 setStatus("Loading Angband...");
 
-// Output buffer: accumulate chars from C fflush calls, then write to xterm.js.
-// Module.print is called by Emscripten when C flushes a line to stdout.
-let outputBuffer = "";
-
 // The Module object must exist before angband.js is loaded so Emscripten
 // picks up our overrides (print, preRun, onRuntimeInitialized).
 window.Module = {
@@ -70,21 +66,23 @@ window.Module = {
     // Suppress stderr noise.
   },
 
-  // Progress hook while angband.data is downloading.
+  // Progress hook while angband.data is downloading.  Emscripten also calls
+  // this with "Running..." and "" at startup — clear the status bar then.
   setStatus: function (msg) {
-    if (msg) setStatus("Loading game data: " + msg);
+    if (msg && msg.indexOf("Running") === -1) {
+      setStatus("Loading game data: " + msg);
+    } else {
+      setStatus("", "ok");
+    }
   },
 
   onRuntimeInitialized: function () {
-    setStatus("Starting Angband...");
-    try {
-      Module.callMain([]);
-    } catch (e) {
-      // Asyncify unwinds via a thrown object on first suspend; ignore it.
-    }
-    // After callMain returns the game is running asynchronously via Asyncify.
-    // Clear the status bar so it doesn't overlap the game screen.
     setStatus("", "ok");
+    try {
+      Module["_web_main"]();
+    } catch (e) {
+      // Asyncify unwinds the stack via a thrown object on first suspend — expected.
+    }
   },
 };
 
