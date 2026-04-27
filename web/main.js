@@ -69,7 +69,12 @@ window.Module = {
     term.write(text + "\r\n");
   },
 
-  printErr: function () {},
+  printErr: function (text) {
+    // plog() in z-util.c writes the quit() error to stderr.
+    // Route it to the terminal so we can see the actual crash reason.
+    term.write("\x1b[31m" + text + "\x1b[0m\r\n");
+    console.error("[Angband stderr]", text);
+  },
 
   // Progress hook while angband.data is downloading.
   setStatus: function (msg) {
