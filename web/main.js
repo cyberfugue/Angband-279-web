@@ -141,7 +141,11 @@ window.Module = {
         twCalls +
         " calls, " +
         twBytes +
-        " bytes]\x1b[0m\r\n"
+        " bytes | cols=" +
+        term.cols +
+        " rows=" +
+        term.rows +
+        "]\x1b[0m\r\n"
     );
   },
 
