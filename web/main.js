@@ -41,33 +41,33 @@ try {
 setStatus("Loading Angband...");
 
 // The Module object must exist before angband.js is loaded so Emscripten
-// picks up our overrides (print, preRun, onRuntimeInitialized).
+// picks up our overrides.
 window.Module = {
   // Key queue shared between xterm.js (producer) and js_getchar (consumer).
   _keyQueue: [],
   _keyWaiter: null,
 
+  // Direct write path: C calls js_write_buf() → Module.termWrite() → term.write().
+  // This bypasses Emscripten's TTY entirely so no buffering surprises.
+  termWrite: function (str) {
+    term.write(str);
+  },
+
   preRun: [
     function () {
-      // Tell the game where its data files live (preloaded at /lib).
       Module.ENV.ANGBAND_PATH = "/lib/";
       Module.ENV.TERM = "vt100";
     },
   ],
 
-  // Emscripten calls Module.print() for each chunk of stdout that was
-  // flushed (either on \n or when C calls fflush).  We pipe it straight
-  // to xterm.js so escape sequences are rendered by the terminal.
+  // Module.print is Emscripten's stdout line callback (backup path).
   print: function (text) {
-    term.write(text);
+    term.write(text + "\r\n");
   },
 
-  printErr: function () {
-    // Suppress stderr noise.
-  },
+  printErr: function () {},
 
-  // Progress hook while angband.data is downloading.  Emscripten also calls
-  // this with "Running..." and "" at startup — clear the status bar then.
+  // Progress hook while angband.data is downloading.
   setStatus: function (msg) {
     if (msg && msg.indexOf("Running") === -1) {
       setStatus("Loading game data: " + msg);
@@ -81,13 +81,23 @@ window.Module = {
     try {
       Module["_web_main"]();
     } catch (e) {
-      // Asyncify unwinds the stack via a thrown object on first suspend — expected.
+      if (e && e.name === "ExitStatus") {
+        setStatus(
+          "Game exited (code " + e.status + "). Check browser console for details.",
+          "error"
+        );
+      }
+      // Asyncify in emscripten 3.1.6 does NOT throw on suspension —
+      // the WASM stack unwinds internally and _web_main() returns normally.
     }
+  },
+
+  onAbort: function (what) {
+    setStatus("Fatal error: " + what, "error");
   },
 };
 
 // Wire xterm.js keyboard input → WASM key queue.
-// Each character (or escape sequence byte) is pushed as a char code.
 term.onData(function (data) {
   for (let i = 0; i < data.length; i++) {
     const code = data.charCodeAt(i);
@@ -101,17 +111,14 @@ term.onData(function (data) {
   }
 });
 
-// Resize the terminal when the window changes.
 window.addEventListener("resize", function () {
   fitAddon.fit();
 });
 
-// Reset: reload the page so the WASM restarts cleanly.
 document.getElementById("reset").addEventListener("click", function () {
   window.location.reload();
 });
 
-// Dynamically load the Emscripten-generated game script.
 const script = document.createElement("script");
 script.src = "./angband.js";
 script.onerror = function () {

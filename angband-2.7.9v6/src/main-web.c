@@ -6,6 +6,8 @@
 #ifdef USE_WEB
 
 #include <emscripten.h>
+#include <sys/stat.h>
+#include <string.h>
 
 /*
  * ANSI colour sequences for Angband's 16 colour indices.
@@ -36,6 +38,24 @@ static int curx = 0;
 static int cury = 0;
 
 /*
+ * js_write_buf -- write raw bytes directly to xterm.js, bypassing the TTY.
+ * This avoids all libc/Emscripten buffering: the bytes arrive at term.write()
+ * in the same call that flushes them from C.
+ */
+EM_JS(void, js_write_buf, (const char *buf, int len), {
+    if (!Module.termWrite) return;
+    var bytes = new Uint8Array(HEAPU8.buffer, buf, len);
+    var str = new TextDecoder('utf-8').decode(bytes);
+    Module.termWrite(str);
+});
+
+/* Convenience wrapper for NUL-terminated strings */
+static void web_puts(const char *s)
+{
+    js_write_buf(s, strlen(s));
+}
+
+/*
  * js_getchar -- blocking keypress read via Asyncify.
  * Implemented in js_lib.js; returns the char code of the next key.
  */
@@ -50,7 +70,9 @@ extern void js_flush_input(void);
 /* Move hardware cursor to column x, row y (both 0-based). */
 static void do_cm(int x, int y)
 {
-    printf("\033[%d;%dH", y + 1, x + 1);
+    char buf[32];
+    int n = snprintf(buf, sizeof(buf), "\033[%d;%dH", y + 1, x + 1);
+    js_write_buf(buf, n);
 }
 
 
@@ -81,34 +103,29 @@ static errr Term_xtra_web(int n, int v)
     switch (n)
     {
         case TERM_XTRA_CLEAR:
-            printf("\033[2J\033[H");
-            fflush(stdout);
+            web_puts("\033[2J\033[H");
             curx = cury = 0;
             return (0);
 
         case TERM_XTRA_NOISE:
-            printf("\007");
-            fflush(stdout);
+            web_puts("\007");
             return (0);
 
         case TERM_XTRA_SHAPE:
-            /* cursor visibility -- no-op in web driver */
             return (0);
 
         case TERM_XTRA_ALIVE:
-            /* suspend/resume -- no-op in web driver */
             return (0);
 
         case TERM_XTRA_EVENT:
             return (Term_xtra_web_event(v));
 
         case TERM_XTRA_FLUSH:
-            /* Drain queued keystrokes. */
             js_flush_input();
             return (0);
 
         case TERM_XTRA_FRESH:
-            fflush(stdout);
+            /* Output is immediate (no C-level buffering), nothing to do. */
             return (0);
     }
 
@@ -133,23 +150,23 @@ static errr Term_curs_web(int x, int y)
  */
 static errr Term_wipe_web(int x, int y, int n)
 {
-    int i;
+    char spaces[82];
 
     Term_curs_web(x, y);
-    printf(COLOR_RESET);
+    web_puts(COLOR_RESET);
 
     if (x + n >= 80)
     {
-        /* Erase to end of line. */
-        printf("\033[K");
+        web_puts("\033[K");
     }
     else
     {
-        for (i = 0; i < n; i++) putchar(' ');
-        curx += n;
+        int count = (n < 80) ? n : 80;
+        memset(spaces, ' ', count);
+        js_write_buf(spaces, count);
+        curx += count;
     }
 
-    fflush(stdout);
     return (0);
 }
 
@@ -160,19 +177,19 @@ static errr Term_wipe_web(int x, int y, int n)
 static errr Term_text_web(int x, int y, int n, byte a, cptr s)
 {
     int i;
-    byte attr = a & 0x0F; /* low 4 bits are colour index */
+    byte attr = a & 0x0F;
 
     Term_curs_web(x, y);
-    printf("%s", ansi_fg[attr]);
+    web_puts(ansi_fg[attr]);
 
     for (i = 0; i < n && s[i]; i++)
     {
-        putchar((unsigned char)s[i]);
+        char c = (char)(unsigned char)s[i];
+        js_write_buf(&c, 1);
         if (++curx >= 80) { curx = 0; cury++; }
     }
 
-    printf(COLOR_RESET);
-    fflush(stdout);
+    web_puts(COLOR_RESET);
     return (0);
 }
 
@@ -181,27 +198,12 @@ static term term_screen_body;
 
 static void Term_init_web(term *t)
 {
-    printf("\033[2J\033[H");
-    fflush(stdout);
+    web_puts("\033[2J\033[H");
 }
 
 static void Term_nuke_web(term *t)
 {
-    printf(COLOR_RESET "\033[2J\033[H");
-    fflush(stdout);
-}
-
-
-/*
- * web_main -- entry point called from JavaScript.
- * Provides a valid argc/argv so main() doesn't dereference a null argv[0].
- */
-void web_main(void)
-{
-    static char prog_name[] = "angband";
-    static char *fake_argv[] = { prog_name, NULL };
-    extern int main(int, char **);
-    main(1, fake_argv);
+    web_puts(COLOR_RESET "\033[2J\033[H");
 }
 
 
@@ -229,6 +231,24 @@ errr init_web(void)
     Term_activate(t);
 
     return (0);
+}
+
+
+/*
+ * web_main -- entry point called from JavaScript.
+ * Creates the data directory (needed for first-run .raw file generation)
+ * and provides a valid argv so main() doesn't dereference a null argv[0].
+ */
+void web_main(void)
+{
+    static char prog_name[] = "angband";
+    static char *fake_argv[] = { prog_name, NULL };
+    extern int main(int, char **);
+
+    /* Create the data directory for generated .raw files. */
+    mkdir("/lib/data", 0755);
+
+    main(1, fake_argv);
 }
 
 #endif /* USE_WEB */
