@@ -193,6 +193,19 @@ static void Term_nuke_web(term *t)
 
 
 /*
+ * web_main -- entry point called from JavaScript.
+ * Provides a valid argc/argv so main() doesn't dereference a null argv[0].
+ */
+void web_main(void)
+{
+    static char prog_name[] = "angband";
+    static char *fake_argv[] = { prog_name, NULL };
+    extern int main(int, char **);
+    main(1, fake_argv);
+}
+
+
+/*
  * init_web -- set up and activate the WebAssembly terminal driver.
  */
 errr init_web(void)

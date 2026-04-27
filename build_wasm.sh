@@ -37,8 +37,8 @@ emcc "${FULL_SRCS[@]}" \
   -sALLOW_MEMORY_GROWTH=1 \
   -sFORCE_FILESYSTEM=1 \
   -sINVOKE_RUN=0 \
-  -sEXPORTED_FUNCTIONS='["_main"]' \
-  -sEXPORTED_RUNTIME_METHODS='["callMain","ENV","FS"]' \
+  -sEXPORTED_FUNCTIONS='["_web_main"]' \
+  -sEXPORTED_RUNTIME_METHODS='["ENV","FS"]' \
   -sENVIRONMENT=web \
   --preload-file "$LIB@/lib" \
   --js-library "$SRC/js_lib.js" \
