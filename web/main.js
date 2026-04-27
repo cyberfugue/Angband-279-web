@@ -78,14 +78,23 @@ window.Module = {
 
   onRuntimeInitialized: function () {
     setStatus("", "ok");
+    // Drain any keypresses that accumulated in the queue while the WASM was
+    // loading (e.g. from the iOS keyboard opening, stray touch events, etc.).
+    // Without this flush a phantom key would skip past pause_line(23) straight
+    // into play_game() → Term_clear(), leaving a blank screen.
+    Module._keyQueue.length = 0;
+    Module._keyWaiter = null;
     try {
       Module["_web_main"]();
     } catch (e) {
       if (e && e.name === "ExitStatus") {
         setStatus(
-          "Game exited (code " + e.status + "). Check browser console for details.",
+          "Game exited (code " + e.status + "). Reload to play again.",
           "error"
         );
+      } else if (e) {
+        setStatus("Runtime error: " + e.message, "error");
+        console.error("Angband runtime error:", e);
       }
       // Asyncify in emscripten 3.1.6 does NOT throw on suspension —
       // the WASM stack unwinds internally and _web_main() returns normally.
