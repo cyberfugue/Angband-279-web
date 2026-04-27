@@ -66,6 +66,16 @@ extern int js_getchar(void);
  */
 extern void js_flush_input(void);
 
+/*
+ * delay -- millisecond sleep stub for WASM.
+ * The SET_UID Unix version lives inside #ifdef SET_UID in util.c, which
+ * we exclude from web builds.  Animation delays become silent no-ops.
+ */
+void delay(int ms)
+{
+    (void)ms;
+}
+
 
 /* Move hardware cursor to column x, row y (both 0-based). */
 static void do_cm(int x, int y)
