@@ -254,9 +254,14 @@ void web_main(void)
     static char prog_name[] = "angband";
     static char *fake_argv[] = { prog_name, NULL };
     extern int main(int, char **);
+    extern char player_name[];
 
     /* Create the data directory for generated .raw files. */
     mkdir("/lib/data", 0755);
+
+    /* SET_UID is disabled for web builds, so user_name() is never called.
+     * Provide a default so player_name isn't an empty string. */
+    strcpy(player_name, "PLAYER");
 
     main(1, fake_argv);
 }
