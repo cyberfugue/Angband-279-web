@@ -113,6 +113,7 @@ window.Module = {
       origTermWrite(str);
     };
 
+    setStatus("Initializing Angband...");
     term.write("\x1b[2J\x1b[H\x1b[32mAngband starting...\x1b[0m\r\n");
 
     try {
@@ -131,6 +132,17 @@ window.Module = {
         console.error("Angband runtime error:", e);
       }
       // Asyncify suspension: _web_main() returns normally (no throw).
+    }
+
+    // _web_main() returned — either Asyncify suspended (good) or it crashed.
+    // Update status bar so we can tell visually whether we get here.
+    if (!gameOver) {
+      gameOver = true; // freeze status so nothing overwrites it
+      setStatus(
+        "cols=" + term.cols + " rows=" + term.rows +
+        " writes=" + twCalls + " | tap terminal to play",
+        twCalls > 0 ? "ok" : "error"
+      );
     }
 
     // Write diagnostic line after _web_main() returns.
